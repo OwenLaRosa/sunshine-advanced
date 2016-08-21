@@ -29,7 +29,7 @@
         android:id="@+id/forecast_empty_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/no_weather"
+        android:text="@string/empty_forecast_list_no_weather"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_gravity="center"
