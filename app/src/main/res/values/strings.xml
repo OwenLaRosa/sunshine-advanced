@@ -111,5 +111,6 @@
 
     <!-- Strings for placeholders and error messages -->
     <string name="no_weather">No weather information available.</string>
+    <string name="no_connection">No weather information available.\n\nThe network is not available to fetch weather data.</string>
 
 </resources>

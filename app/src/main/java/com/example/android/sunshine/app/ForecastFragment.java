@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.android.sunshine.app.data.WeatherContract;
 
@@ -43,6 +44,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     private ForecastAdapter mForecastAdapter;
 
     private ListView mListView;
+    private TextView weatherEmptyTextView;
     private int mPosition = ListView.INVALID_POSITION;
     private boolean mUseTodayLayout;
 
@@ -138,8 +140,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
         // Get a reference to the ListView, and attach this adapter to it.
         mListView = (ListView) rootView.findViewById(R.id.listview_forecast);
-        View emptyView = rootView.findViewById(R.id.forecast_empty_textview);
-        mListView.setEmptyView(emptyView);
+        weatherEmptyTextView = (TextView) rootView.findViewById(R.id.forecast_empty_textview);
+        mListView.setEmptyView(weatherEmptyTextView);
         mListView.setAdapter(mForecastAdapter);
         // We'll call our MainActivity
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -253,6 +255,12 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             // If we don't need to restart the loader, and there's a desired position to restore
             // to, do so now.
             mListView.smoothScrollToPosition(mPosition);
+        }
+
+        if (mForecastAdapter.getCount() == 0) {
+            if (!Utility.isConnected(getActivity())) {
+                weatherEmptyTextView.setText(getString(R.string.no_connection));
+            }
         }
     }
 
