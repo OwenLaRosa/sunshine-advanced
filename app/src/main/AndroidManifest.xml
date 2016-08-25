@@ -111,21 +111,21 @@
             </intent-filter>
         </receiver>
         <service
-            android:name="com.example.MyGcmListenerService"
+            android:name="com.example.android.sunshine.app.gcm.MyGcmListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
         <service
-            android:name="com.example.MyInstanceIDListenerService"
+            android:name="com.example.android.sunshine.app.gcm.MyInstanceIDListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
         <service
-            android:name="com.example.RegistrationIntentService"
+            android:name="com.example.android.sunshine.app.gcm.RegistrationIntentService"
             android:exported="false" />
 
     </application>
