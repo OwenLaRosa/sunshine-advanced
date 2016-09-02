@@ -224,4 +224,7 @@
 
     <string name="detail_icon_transition_name" translatable="false">TN_DetailIcon</string>
 
+    <!-- attribution text for Google API -->
+    <string name="powered_by_google"><string name="attribution_text">Powered by Google</string></string>
+
 </resources>

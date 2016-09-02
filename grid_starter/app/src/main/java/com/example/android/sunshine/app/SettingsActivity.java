@@ -24,7 +24,10 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.example.android.sunshine.app.data.WeatherContract;
 import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
@@ -45,6 +48,8 @@ public class SettingsActivity extends PreferenceActivity
 
     protected final static int PLACE_PICKER_REQUEST = 9090;
 
+    private ImageView attributionImageView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +61,16 @@ public class SettingsActivity extends PreferenceActivity
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_units_key)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_art_pack_key)));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            attributionImageView = new ImageView(this);
+            attributionImageView.setImageResource(R.drawable.powered_by_google_light);
+
+            if (!Utility.isLocationLatLonAvailable(this)) {
+                attributionImageView.setVisibility(View.GONE);
+            }
+            setListFooter(attributionImageView);
+        }
     }
 
     // Registers a shared preference change listener that gets notified when preferences change
@@ -144,6 +159,10 @@ public class SettingsActivity extends PreferenceActivity
             editor.remove(getString(R.string.pref_location_longitude));
             editor.commit();
 
+            if (attributionImageView != null) {
+                attributionImageView.setVisibility(View.GONE);
+            }
+
             // we've changed the location
             // first clear locationStatus
             Utility.resetLocationStatus(this);
@@ -191,6 +210,15 @@ public class SettingsActivity extends PreferenceActivity
 
                 Preference locationPreference = findPreference(getString(R.string.pref_location_key));
                 setPreferenceSummary(locationPreference, address);
+
+                if (attributionImageView != null) {
+                    attributionImageView.setVisibility(View.VISIBLE);
+                } else {
+                    View rootView = findViewById(android.R.id.content);
+                    Snackbar.make(rootView, getString(R.string.powered_by_google),
+                            Snackbar.LENGTH_LONG).show();
+                }
+
                 Utility.resetLocationStatus(this);
                 SunshineSyncAdapter.syncImmediately(this);
             }
