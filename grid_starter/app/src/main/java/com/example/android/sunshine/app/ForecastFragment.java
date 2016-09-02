@@ -25,6 +25,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -199,6 +200,23 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                             parallaxView.setTranslationY(Math.max(-max, parallaxView.getTranslationY() - dy / 2));
                         } else {
                             parallaxView.setTranslationY(Math.min(0, parallaxView.getTranslationY() - dy / 2));
+                        }
+                    }
+                });
+            }
+        }
+
+        final AppBarLayout appBarLayout = (AppBarLayout) rootView.findViewById(R.id.appbar);
+        if (null != appBarLayout) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+                        if (0 == mRecyclerView.computeVerticalScrollOffset()) {
+                            appBarLayout.setElevation(0);
+                        } else {
+                            appBarLayout.setElevation(appBarLayout.getTargetElevation());
                         }
                     }
                 });
