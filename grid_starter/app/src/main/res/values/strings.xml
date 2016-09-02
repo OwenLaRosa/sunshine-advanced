@@ -62,6 +62,9 @@
     <string name="pref_enable_notifications_false">Not Enabled</string>
     <string name="pref_enable_notifications_default" translatable="false">true</string>
 
+    <string name="pref_location_latitude" translatable="false">loc-latitude</string>
+    <string name="pref_location_longitude" translatable="false">loc-longitude</string>
+
     <!-- Strings for formatting weather-related data -->
 
     <!-- Label for the temperature units preference [CHAR LIMIT=30] -->
