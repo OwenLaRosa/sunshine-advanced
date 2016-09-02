@@ -174,7 +174,7 @@ public class SettingsActivity extends PreferenceActivity
                 Place place = PlacePicker.getPlace(data, this);
                 String address = place.getAddress().toString();
 
-                LatLng latLong = new LatLng(37.422503f, -122.083939f);
+                LatLng latLong = place.getLatLng();
 
                 // If the provided place doesn't have an address, we'll form a display-friendly
                 // string from the latlng values.
@@ -185,6 +185,8 @@ public class SettingsActivity extends PreferenceActivity
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(getString(R.string.pref_location_key), address);
+                editor.putFloat(getString(R.string.pref_location_latitude), (float) latLong.latitude);
+                editor.putFloat(getString(R.string.pref_location_longitude), (float) latLong.longitude);
                 editor.commit();
 
                 Preference locationPreference = findPreference(getString(R.string.pref_location_key));
