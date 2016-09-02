@@ -38,6 +38,9 @@
     <permission android:name="com.example.android.sunshine.app.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
     <uses-permission android:name="com.example.android.sunshine.app.permission.C2D_MESSAGE" />
+    
+    <!-- permissions for Google Places API -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <meta-data
         android:name="com.google.android.geo.API_KEY"
