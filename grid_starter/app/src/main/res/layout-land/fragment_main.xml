@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="?attr/colorPrimary"
-        android:elevation="@dimen/appbar_elevation"
+        android:elevation="0dp"
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
