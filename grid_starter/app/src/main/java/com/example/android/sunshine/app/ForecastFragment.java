@@ -56,6 +56,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     private int mPosition = RecyclerView.NO_POSITION;
     private boolean mUseTodayLayout;
     private boolean mHoldForTransition;
+    private long mInitialSelectedDate = -1;
 
     private static final String SELECTED_KEY = "selected_position";
 
@@ -181,7 +182,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                         .onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
                                 locationSetting, date), vh
                         );
-                mPosition = vh.getAdapterPosition();
             }
         }, emptyView);
         mRecyclerView.setAdapter(mForecastAdapter);
@@ -228,11 +228,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         // does crazy lifecycle related things.  It should feel like some stuff stretched out,
         // or magically appeared to take advantage of room, but data or place in the app was never
         // actually *lost*.
-        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
-            // The recycler view probably hasn't even been populated yet.  Actually perform the
-            // swapout in onLoadFinished.
-            mPosition = savedInstanceState.getInt(SELECTED_KEY);
-        }
 
         mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
 
@@ -291,9 +286,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         // When tablets rotate, the currently selected list item needs to be saved.
         // When no item is selected, mPosition will be set to RecyclerView.NO_POSITION,
         // so check for that before storing.
-        if (mPosition != RecyclerView.NO_POSITION) {
-            outState.putInt(SELECTED_KEY, mPosition);
-        }
         super.onSaveInstanceState(outState);
     }
 
@@ -323,11 +315,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mForecastAdapter.swapCursor(data);
-        if (mPosition != RecyclerView.NO_POSITION) {
-            // If we don't need to restart the loader, and there's a desired position to restore
-            // to, do so now.
-            mRecyclerView.smoothScrollToPosition(mPosition);
-        }
         if (data.getCount() == 0) {
             getActivity().supportStartPostponedEnterTransition();
         } else {
@@ -384,6 +371,10 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         if ( key.equals(getString(R.string.pref_location_status_key)) ) {
             updateEmptyView();
         }
+    }
+
+    public void setInitialSelectedDate(long initialSelectedDate) {
+        mInitialSelectedDate = initialSelectedDate;
     }
 
 }
